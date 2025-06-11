@@ -49,7 +49,7 @@
     /* Premium gradients */
     --gradient-primary: linear-gradient(135deg, #091235 0%, #1402E 50%, #2B4257 100%);
     --gradient-secondary: linear-gradient(135deg, #2B4257 0%, #88A9C3 100%);
-    --gradient-accent: linear-gradient(135deg, #88A9C3 0%, #ffffff 100%);
+    --gradient-accent: linear-gradient(135deg, #88A9C3 40%, #ffffff 100%);
   }
 
   .dark {

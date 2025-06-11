@@ -24,7 +24,7 @@ const features = [
 ];
 
 const About = () => (
-  <div className="hidden lg:flex lg:w-1/2 text-indigo-900 p-12 flex-col justify-center relative overflow-hidden">
+  <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-center relative overflow-hidden">
     <div className="absolute inset-0 backdrop-blur-sm" />
     <div className="relative z-10">
       <h1 className="text-6xl font-bold mb-8 leading-tight text-primary-foreground">
