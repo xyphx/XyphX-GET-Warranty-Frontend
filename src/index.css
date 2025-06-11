@@ -1,0 +1,158 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 215 100% 11%; /* #091235 */
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 100% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 100% 11%;
+
+    --primary: 239 98% 9%; /* #1402E */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 208 28% 27%; /* #2B4257 */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 207 42% 66%; /* #88A9C3 */
+    --muted-foreground: 215 100% 11%;
+
+    --accent: 207 42% 66%;
+    --accent-foreground: 215 100% 11%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 207 42% 85%;
+    --input: 207 42% 85%;
+    --ring: 239 98% 9%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 215 100% 11%;
+    --sidebar-primary: 239 98% 9%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 207 42% 90%;
+    --sidebar-accent-foreground: 215 100% 11%;
+    --sidebar-border: 207 42% 85%;
+    --sidebar-ring: 239 98% 9%;
+
+    /* Premium gradients */
+    --gradient-primary: linear-gradient(135deg, #091235 0%, #1402E 50%, #2B4257 100%);
+    --gradient-secondary: linear-gradient(135deg, #2B4257 0%, #88A9C3 100%);
+    --gradient-accent: linear-gradient(135deg, #88A9C3 0%, #ffffff 100%);
+  }
+
+  .dark {
+    --background: 215 100% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 215 100% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 215 100% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 207 42% 66%;
+    --primary-foreground: 215 100% 11%;
+
+    --secondary: 208 28% 27%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 208 28% 27%;
+    --muted-foreground: 207 42% 66%;
+
+    --accent: 208 28% 27%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 208 28% 27%;
+    --input: 208 28% 27%;
+    --ring: 207 42% 66%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .premium-shadow {
+    box-shadow: 0 25px 50px -12px rgba(9, 18, 53, 0.25);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 64px -12px rgba(9, 18, 53, 0.35);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glassmorphism effects */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(24px);
+}
