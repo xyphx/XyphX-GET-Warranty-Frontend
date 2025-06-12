@@ -14,7 +14,7 @@ interface FormData {
 }
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",

@@ -27,22 +27,21 @@ const About = () => (
   <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-center relative overflow-hidden">
     <div className="absolute inset-0 backdrop-blur-sm" />
     <div className="relative z-10">
-      <h1 className="text-6xl font-bold mb-8 leading-tight text-primary-foreground">
+     <h1 className="text-6xl font-bold mb-8 leading-tight text-primary-foreground drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)]">
         GET-Warranty
       </h1>
-
-      <p className="text-2xl mb-12 opacity-90 font-light text-primary-foreground/90">
+      <p className="text-2xl mb-12 opacity-90 font-light text-primary-foreground/90 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)]">
         Your premium solution for managing warranties, renewals, and subscriptions
       </p>
 
-      <div className="space-y-6 mb-12">
+      <div className="space-y-6 mb-12 ">
         {features.map((feature, index) => (
           <FeatureItem key={index} feature={feature} index={index} />
         ))}
       </div>
 
-      <p className="text-xl opacity-80 text-primary-foreground">
-        Built with&nbsp;by <span className="font-bold text-violet-800">XyphX</span>
+      <p className="text-xl text-primary-foreground text-gray-700">
+        Powered by <span className="font-bold  text-black">XyphX</span>
       </p>
     </div>
   </div>

@@ -121,7 +121,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen gradient-accent p-4 md:p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
@@ -173,7 +173,7 @@ const Profile = () => {
               {!isEditing ? (
                 <Button
                   onClick={() => setIsEditing(true)}
-                  className="w-full gradient-primary text-white hover-lift"
+                  className="w-full gradient-primary text-black border-2 hover:text-white"
                 >
                   <Edit className="w-4 h-4 mr-2" />
                   Edit Profile
@@ -201,13 +201,13 @@ const Profile = () => {
           </Card>
 
           {/* Personal Information */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-4">
             <Card className="glass-effect border-0 premium-shadow">
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-foreground">Personal Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-sm font-semibold">Full Name</Label>
                     <Input
@@ -301,18 +301,6 @@ const Profile = () => {
                     />
                   </div>
                   
-                  <div className="md:col-span-2 space-y-2">
-                    <Label htmlFor="bio" className="text-sm font-semibold">Bio</Label>
-                    <textarea
-                      id="bio"
-                      value={profileData.bio}
-                      onChange={(e) => handleInputChange('bio', e.target.value)}
-                      disabled={!isEditing}
-                      placeholder="Tell us about yourself..."
-                      rows={4}
-                      className="w-full px-3 py-2 bg-white/80 backdrop-blur-sm border-2 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring"
-                    />
-                  </div>
                 </div>
               </CardContent>
             </Card>

@@ -125,9 +125,8 @@ const Dashboard = () => {
             <div className="flex items-center space-x-4">
               <Button
                 onClick={() => navigate('/profile')}
-                variant="outline"
                 size="lg"
-                className="glass-effect border-2 hover-lift"
+                className="glass-effect hover:text-white text-black  px-6"
               >
                 <User className="w-5 h-5 mr-2" />
                 Profile
@@ -180,8 +179,8 @@ const Dashboard = () => {
           <Button
             onClick={() => setIsAddModalOpen(true)}
             size="lg"
-            className="gradient-primary text-white hover-lift px-8"
-          >
+            className="gradient-primary text-black border border-white hover:text-white hover-lift px-8"
+          > 
             <Plus className="w-5 h-5 mr-2" />
             Add Service
           </Button>
