@@ -119,10 +119,10 @@ const Dashboard = () => {
         <div className="mb-8">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">Welcome back, {user.name}!</h1>
-              <p className="text-xl text-muted-foreground">Manage your premium warranty experience</p>
+              <h1 className="md:text-4xl text-2xl font-bold text-foreground mb-2">Welcome back, {user.name}!</h1>
+              <p className="md:text-xl text-md text-muted-foreground">Manage your premium warranty experience</p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 md:flex-row flex-col-reverse">
               <Button
                 onClick={() => navigate('/profile')}
                 size="lg"
@@ -131,7 +131,7 @@ const Dashboard = () => {
                 <User className="w-5 h-5 mr-2" />
                 Profile
               </Button>
-              <div className="text-sm text-muted-foreground">
+              <div className="md:text-sm text-[12px] mx-auto text-muted-foreground">
                 Powered by <span className="font-bold text-primary">XyphX</span>
               </div>
             </div>

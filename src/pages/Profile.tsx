@@ -131,14 +131,11 @@ const Profile = () => {
               size="lg"
               className="glass-effect border-2"
             >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Dashboard
+              <ArrowLeft className="h-5 mr-2" />
             </Button>
-            <h1 className="text-4xl font-bold text-foreground">Profile Settings</h1>
+            <h1 className="md:text-4xl text-xl font-bold text-foreground">Profile Settings</h1>
           </div>
-          <div className="text-sm text-muted-foreground">
-            Powered by <span className="font-bold text-primary">XyphX</span>
-          </div>
+  
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
