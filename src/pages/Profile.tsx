@@ -22,6 +22,7 @@ const Profile = () => {
   const [profileData, setProfileData] = useState<ProfileData>({
     profile: null,
     name: '',
+    email: '',
     phone: '',
     location: '',
     jobTitle: '',
@@ -43,6 +44,7 @@ const Profile = () => {
         setProfileData({
           profile: data.profile || null,
           name: data.name || '',
+          email: data.email || '',
           phone: data.profile?.phone || '',
           location: data.profile?.location || '',
           jobTitle: data.profile?.jobTitle || '',
@@ -182,7 +184,7 @@ const Profile = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {["name", "email", "phone", "location"].map(field => (
+                 {["name", "email", "phone", "location"].map(field => (
                     <div className="space-y-2" key={field}>
                       <Label htmlFor={field} className="text-sm font-semibold">
                         {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -191,7 +193,7 @@ const Profile = () => {
                         id={field}
                         value={profileData[field as keyof ProfileData]}
                         onChange={(e) => handleInputChange(field as keyof ProfileData, e.target.value)}
-                        disabled={!isEditing}
+                        disabled={!isEditing || field === "email"} // 🔒 disables email field always
                         placeholder={`Enter ${field}`}
                         className="bg-white/80 backdrop-blur-sm border-2 h-12"
                       />
@@ -226,7 +228,7 @@ const Profile = () => {
               </CardContent>
             </Card>
 
-            {isEditing && (
+            {/*isEditing && (
               <Card className="glass-effect border-0 premium-shadow">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-foreground">Change Password</CardTitle>
@@ -259,7 +261,7 @@ const Profile = () => {
                   </div>
                 </CardContent>
               </Card>
-            )}
+            )*/}
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import API from "@/api/axios";
 export interface ProfileData {
   profile: any;
   name: any;
+  email: string;
   phone: string;
   location: string;
   jobTitle: string;
