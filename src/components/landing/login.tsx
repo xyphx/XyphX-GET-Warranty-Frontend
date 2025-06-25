@@ -65,7 +65,9 @@ const Login = () => {
         description: isLogin ? "Welcome back!" : "Account created successfully!"
       });
 
-      navigate("/dashboard");
+      setTimeout(() => {
+        navigate("/profile", { replace: true });
+      }, 100);
     } catch (err: any) {
       console.error("Error:", err);
       let errorMsg = "Something went wrong";
