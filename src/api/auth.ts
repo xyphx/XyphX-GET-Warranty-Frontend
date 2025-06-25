@@ -15,4 +15,4 @@ setInterval(() => {
   }).catch((err) => {
     console.error("Failed to refresh token:", err);
   });
-}, 10 * 60 * 10); // every 10 minutes
+}, 10 * 60 * 1000); // every 10 minutes
