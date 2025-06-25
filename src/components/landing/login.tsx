@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { login, signup } from "@/services/authSevice";
 
 interface FormData {
   fullName: string;
@@ -29,7 +30,7 @@ const Login = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isLogin && formData.password !== formData.confirmPassword) {
@@ -41,20 +42,50 @@ const Login = () => {
       return;
     }
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        name: isLogin ? "User" : formData.fullName,
-        email: formData.email
-      })
-    );
+    try {
+      let response;
+      if (isLogin) {
+        response = await login({
+          email: formData.email,
+          password: formData.password
+        });
+      } else {
+        response = await signup({
+          name: formData.fullName,
+          email: formData.email,
+          password: formData.password
+        });
+      }
 
-    toast({
-      title: "Success!",
-      description: isLogin ? "Welcome back!" : "Account created successfully!"
-    });
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
 
-    navigate("/dashboard");
+      toast({
+        title: "Success!",
+        description: isLogin ? "Welcome back!" : "Account created successfully!"
+      });
+
+    
+        navigate("/dashboard");
+   
+    } catch (err: any) {
+      console.error("Error:", err);
+      let errorMsg = "Something went wrong";
+
+      if (err.response?.data?.message) {
+        errorMsg = err.response.data.message;
+      } else if (err.response?.data) {
+        errorMsg = typeof err.response.data === "string" ? err.response.data : JSON.stringify(err.response.data);
+      } else if (err.message) {
+        errorMsg = err.message;
+      }
+
+      toast({
+        title: "Error",
+        description: errorMsg,
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -122,7 +153,7 @@ const Login = () => {
             </div>
           )}
 
-          <Button type="submit" className="w-full h-12 text-lg font-semibold hover:bg-white hover:text-gray-900 border hover:border-gray-900 transition-colors">
+          <Button type="submit" className="w-full h-12 text-lg font-semibold">
             {isLogin ? "Sign In" : "Create Account"}
           </Button>
         </form>
@@ -135,7 +166,7 @@ const Login = () => {
             type="button"
             variant="ghost"
             onClick={() => setIsLogin(!isLogin)}
-            className="mt-2 px-8 font-semibold hover:bg-transparent hover:border hover:bg-white hover:border-gray-900"
+            className="mt-2"
           >
             {isLogin ? "Sign Up" : "Sign In"}
           </Button>
