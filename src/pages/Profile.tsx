@@ -101,7 +101,13 @@ const Profile = () => {
   };
 
   if (!user) return null;
-
+  
+const handleLogout = () => {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
+  toast({ title: "Logged out successfully" });
+  navigate("/");
+};
   return (
     <div className="min-h-screen gradient-accent p-4 md:p-6">
       <div className="mx-auto max-w-6xl">
@@ -148,6 +154,7 @@ const Profile = () => {
 
             <CardContent className="text-center">
               {!isEditing ? (
+                <div className="space-y-4">
                 <Button
                   onClick={() => setIsEditing(true)}
                   className="w-full gradient-primary text-black border-2 hover:text-white"
@@ -155,6 +162,15 @@ const Profile = () => {
                   <Edit className="w-4 h-4 mr-2" />
                   Edit Profile
                 </Button>
+                 <Button
+                  onClick={handleLogout}
+                  variant="destructive"
+                  className="w-full"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+                </div>
               ) : (
                 <div className="space-y-3">
                   <Button
