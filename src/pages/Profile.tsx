@@ -103,10 +103,9 @@ const Profile = () => {
   if (!user) return null;
   
 const handleLogout = () => {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");
+  localStorage.clear();
+   window.location.href = "/";
   toast({ title: "Logged out successfully" });
-  navigate("/");
 };
   return (
     <div className="min-h-screen gradient-accent p-4 md:p-6">

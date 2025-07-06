@@ -64,9 +64,7 @@ const Login = () => {
         title: "Success!",
         description: isLogin ? "Welcome back!" : "Account created successfully!"
       });
-
-    
-        navigate("/dashboard");
+ window.location.href = "/dashboard";
    
     } catch (err: any) {
       console.error("Error:", err);
