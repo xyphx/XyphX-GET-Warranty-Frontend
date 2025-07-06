@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,13 +15,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addService } from "@/services/dashboardService";
+import { editService } from "@/services/dashboardService";
+import { userDetails } from "@/services/detailsService";
 import { useToast } from "@/hooks/use-toast";
 
-interface AddServiceModalProps {
+interface EditServiceModalProps {
   isOpen: boolean;
   onClose: () => void;
   userId: string;
+  serviceId: string | null;
   refreshServices: () => void;
 }
 
@@ -36,57 +38,66 @@ const serviceTypes = [
   { value: "other", label: "Other" },
 ];
 
-const AddServiceModal = ({
+const EditServiceModal = ({
   isOpen,
   onClose,
   userId,
+  serviceId,
   refreshServices,
-}: AddServiceModalProps) => {
+}: EditServiceModalProps) => {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
     expiryDate: "",
     productName: "",
+    status: "active",
+    notes: "",
   });
 
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.type || !formData.expiryDate) return;
+  // ✅ Load the correct service using the serviceId
+  useEffect(() => {
+    const loadService = async () => {
+      if (!serviceId) return;
+      try {
+        const res = await userDetails();
+        const allServices = res.services || [];
 
-    setLoading(true);
-    try {
-      await addService(userId, {
-        name: formData.name,
-        type: formData.type,
-        nextBillingDate: formData.expiryDate,
-        planType: formData.productName || undefined,
-        status: "active",
-      });
+        const s = allServices.find((srv: any) => srv.id === serviceId);
 
-      toast({
-        title: "Service Added!",
-        description: `${formData.name} has been added successfully.`,
-      });
+        if (!s) {
+          toast({
+            title: "Service not found",
+            description: "The selected service could not be found.",
+            variant: "destructive",
+          });
+          return;
+        }
 
-      refreshServices();
-      onClose();
+        setFormData({
+          name: s.name || "",
+          type: s.type || "",
+          expiryDate: s.nextBillingDate || "",
+          productName: s.planType || "",
+          status: s.status || "active",
+          notes: s.notes || "",
+        });
+      } catch (error) {
+        console.error("Failed to fetch service:", error);
+        toast({
+          title: "Error loading service",
+          description: "Please try again later.",
+          variant: "destructive",
+        });
+      }
+    };
 
-      setFormData({ name: "", type: "", expiryDate: "", productName: "" });
-    } catch (error: any) {
-      console.error("Failed to add service:", error?.response || error);
-      toast({
-        title: "Error",
-        description:
-          error?.response?.data?.message || "Failed to add service. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+    if (isOpen) {
+      loadService();
     }
-  };
+  }, [isOpen, serviceId, toast]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -133,15 +144,48 @@ const AddServiceModal = ({
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.type || !formData.expiryDate) return;
+
+    setLoading(true);
+    try {
+      await editService(userId, serviceId!, {
+        name: formData.name,
+        type: formData.type,
+        nextBillingDate: formData.expiryDate,
+        planType: formData.productName || undefined,
+        status: formData.status,
+        notes: formData.notes || undefined,
+      });
+
+      toast({
+        title: "Service Updated!",
+        description: `${formData.name} was edited successfully.`,
+      });
+
+      refreshServices();
+      onClose();
+    } catch (error: any) {
+      console.error("Edit error:", error);
+      toast({
+        title: "Edit Failed",
+        description:
+          error?.response?.data?.message || "Could not update the service.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const labels = getFieldLabels();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md bg-white/95 backdrop-blur-sm">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-gray-800">
-            Add New Service
-          </DialogTitle>
+          <DialogTitle>Edit Service</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -153,7 +197,7 @@ const AddServiceModal = ({
               required
             >
               <SelectTrigger className="bg-white/50">
-                <SelectValue placeholder="Select service type" />
+                <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent>
                 {serviceTypes.map((type) => (
@@ -187,7 +231,9 @@ const AddServiceModal = ({
                   type="text"
                   placeholder={`Enter ${labels.productName.toLowerCase()}`}
                   value={formData.productName}
-                  onChange={(e) => handleInputChange("productName", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("productName", e.target.value)
+                  }
                   className="bg-white/50"
                 />
               </div>
@@ -198,8 +244,41 @@ const AddServiceModal = ({
                   id="expiryDate"
                   type="date"
                   value={formData.expiryDate}
-                  onChange={(e) => handleInputChange("expiryDate", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("expiryDate", e.target.value)
+                  }
                   required
+                  className="bg-white/50"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) =>
+                    handleInputChange("status", value)
+                  }
+                >
+                  <SelectTrigger className="bg-white/50">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="expiring">Expiring</SelectItem>
+                    <SelectItem value="expired">Expired</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="notes">Notes</Label>
+                <Input
+                  id="notes"
+                  type="text"
+                  placeholder="Any additional info"
+                  value={formData.notes}
+                  onChange={(e) => handleInputChange("notes", e.target.value)}
                   className="bg-white/50"
                 />
               </div>
@@ -223,7 +302,7 @@ const AddServiceModal = ({
                 !formData.name || !formData.type || !formData.expiryDate || loading
               }
             >
-              {loading ? "Adding..." : "Add Service"}
+              {loading ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>
@@ -232,4 +311,4 @@ const AddServiceModal = ({
   );
 };
 
-export default AddServiceModal;
+export default EditServiceModal;
